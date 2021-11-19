@@ -4,13 +4,13 @@ import (
 	"database/sql"
 	"embed"
 	"github.com/gentwolf-shen/gin-boost"
+	"github.com/gentwolf-shen/gobootstrap/helper"
+	"github.com/gentwolf-shen/gobootstrap/interceptor"
 	"github.com/gentwolf-shen/gohelper-v2/config"
 	"github.com/gentwolf-shen/gohelper-v2/dict"
 	"github.com/gentwolf-shen/gohelper-v2/endless"
 	"github.com/gentwolf-shen/gohelper-v2/gomybatis"
 	"github.com/gentwolf-shen/gohelper-v2/logger"
-	"gobootstrap/helper"
-	"gobootstrap/interceptor"
 	"runtime"
 )
 
