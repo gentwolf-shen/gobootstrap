@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"embed"
 	"github.com/gentwolf-shen/gin-boost"
-	"github.com/gentwolf-shen/gobootstrap/helper"
 	"github.com/gentwolf-shen/gobootstrap/interceptor"
 	"github.com/gentwolf-shen/gohelper-v2/config"
 	"github.com/gentwolf-shen/gohelper-v2/dict"
@@ -45,11 +44,19 @@ func (this *Application) init() {
 		this.engine = gin.New()
 	}
 
-	this.engine.Use(helper.GinHelper.AllowCrossDomainAll())
 	this.engine.Use(this.auth())
 	this.engine.Use(gin.Recovery())
 
 	runtime.GOMAXPROCS(runtime.NumCPU())
+}
+
+func (this *Application) AllowCrossDomain(domains []string) *Application {
+	if len(domains) == 1 && domains[0] == "*" {
+		this.engine.Use(gin.AllowCrossDomainAll())
+	} else {
+		this.engine.Use(gin.AllowCrossDomain(domains))
+	}
+	return this
 }
 
 func (this *Application) Register(register func(app *Application)) *Application {
