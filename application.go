@@ -2,15 +2,19 @@ package gobootstrap
 
 import (
 	"database/sql"
-	"embed"
 	"github.com/gentwolf-shen/gin-boost"
+	"github.com/gentwolf-shen/gobootstrap/dao"
+	"github.com/gentwolf-shen/gobootstrap/embed"
 	"github.com/gentwolf-shen/gobootstrap/interceptor"
+	"github.com/gentwolf-shen/gobootstrap/service"
 	"github.com/gentwolf-shen/gohelper-v2/config"
 	"github.com/gentwolf-shen/gohelper-v2/dict"
 	"github.com/gentwolf-shen/gohelper-v2/endless"
 	"github.com/gentwolf-shen/gohelper-v2/gomybatis"
 	"github.com/gentwolf-shen/gohelper-v2/logger"
+	"io/ioutil"
 	"runtime"
+	"strings"
 )
 
 type Application struct {
@@ -78,10 +82,14 @@ func (this *Application) ShutdownHook(hook func()) {
 	this.closeDb()
 }
 
-func (this *Application) SetDbMapper(mappers embed.FS, prefix string) *Application {
-	this.dbConnections = make(map[string]*sql.DB, len(this.cfg.Db))
-	var err error
+func (this *Application) SetDbMapper(mappers embed.ItfaceEmbedFile, prefix string) *Application {
+	if !strings.HasSuffix(prefix, "/") {
+		prefix += "/"
+	}
 
+	this.dbConnections = make(map[string]*sql.DB, len(this.cfg.Db))
+
+	var err error
 	for name, c := range this.cfg.Db {
 		this.dbConnections[name], err = sql.Open(c.Type, c.Dsn)
 		if err != nil {
@@ -99,14 +107,54 @@ func (this *Application) SetDbMapper(mappers embed.FS, prefix string) *Applicati
 		}
 
 		for _, dir := range dirs {
-			files, _ := mappers.ReadDir(prefix + "/" + dir.Name())
+			files, _ := mappers.ReadDir(prefix + dir.Name())
 			for _, n := range files {
-				info, _ := n.Info()
-				b, _ := mappers.ReadFile(prefix + "/" + dir.Name() + "/" + info.Name())
-				gomybatis.SetMapper(this.dbConnections[name], info.Name(), string(b))
+				name := n.Name()
+				b, err := ioutil.ReadFile(prefix + dir.Name() + "/" + name)
+				if err != nil {
+					logger.Error(err)
+					continue
+				}
+				gomybatis.SetMapper(this.dbConnections[name], strings.TrimSuffix(name, ".xml"), string(b))
 			}
 		}
 	}
+
+	return this
+}
+
+func (this *Application) UseFlyway(mappers embed.ItfaceEmbedFile, prefix string) *Application {
+	if !strings.HasSuffix(prefix, "/") {
+		prefix += "/"
+	}
+
+	dirs, err := mappers.ReadDir(prefix)
+	if err != nil {
+		logger.Errorf("read dir error %v", err)
+		return this
+	}
+
+	service.Flyway.Init(len(dirs))
+
+	for _, dir := range dirs {
+		if !dir.IsDir() {
+			continue
+		}
+
+		name := dir.Name()
+
+		db, bl := this.dbConnections[dir.Name()]
+		if !bl {
+			continue
+		}
+
+		// todo: 检测db类型,初始化XML及SQL
+
+		service.Flyway.AddDao(name, dao.NewFlyway(name))
+		gomybatis.SetMapper(db, name+":Flyway", service.Flyway.GetXml())
+		service.Flyway.Run(mappers, prefix, name)
+	}
+	service.Flyway = nil
 
 	return this
 }
