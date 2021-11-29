@@ -1,4 +1,4 @@
-package entity
+package gobootstrap
 
 type (
 	ResponseMessage struct {
