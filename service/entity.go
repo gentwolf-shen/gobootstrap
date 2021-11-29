@@ -1,12 +1,6 @@
-package gobootstrap
+package service
 
 type (
-	ResponseMessage struct {
-		Code    int         `json:"code"`
-		Data    interface{} `json:"data"`
-		Message interface{} `json:"message"`
-	}
-
 	FlywayEntity struct {
 		Id          int64  `json:"id"`
 		Version     int    `json:"version"`

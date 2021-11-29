@@ -1,7 +1,6 @@
 package service
 
 import (
-	"github.com/gentwolf-shen/gobootstrap"
 	"github.com/gentwolf-shen/gobootstrap/dao"
 	"github.com/gentwolf-shen/gobootstrap/embed"
 	"github.com/gentwolf-shen/gohelper-v2/convert"
@@ -20,7 +19,7 @@ var (
 type FlywayService struct {
 	ptn      *regexp.Regexp
 	dirRoot  string
-	versions map[int]gobootstrap.FlywayEntity
+	versions map[int]FlywayEntity
 
 	daos map[string]*dao.FlywayDao
 	xml  string
@@ -100,7 +99,7 @@ func (s *FlywayService) Run(mappers embed.ItfaceEmbedFile, prefix, target string
 }
 
 func (s *FlywayService) listHistory(target string) {
-	var rows []gobootstrap.FlywayEntity
+	var rows []FlywayEntity
 	err := s.daos[target].ListHistory(&rows)
 	if err != nil {
 		logger.Info("init flyway_schema_history")
@@ -111,7 +110,7 @@ func (s *FlywayService) listHistory(target string) {
 		_ = s.daos[target].ListHistory(&rows)
 	}
 
-	s.versions = make(map[int]gobootstrap.FlywayEntity)
+	s.versions = make(map[int]FlywayEntity)
 	for _, v := range rows {
 		s.versions[v.Version] = v
 	}
@@ -133,7 +132,7 @@ func (s *FlywayService) parseSql(version int, target, filename string, b []byte)
 		}
 	}
 
-	p := gobootstrap.FlywayEntity{
+	p := &FlywayEntity{
 		Version:     version,
 		Script:      filename,
 		InstalledOn: timehelper.Today(),
