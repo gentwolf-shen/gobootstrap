@@ -129,6 +129,7 @@ func (this *Application) UseFlyway(mappers embed.ItfaceEmbedFile, prefix string)
 	service.Flyway.Init(len(dirs))
 
 	for _, dir := range dirs {
+		logger.Debugf("UseFlyway %s is dir %v", dir, dir.IsDir())
 		if !dir.IsDir() {
 			continue
 		}
@@ -136,6 +137,7 @@ func (this *Application) UseFlyway(mappers embed.ItfaceEmbedFile, prefix string)
 		name := dir.Name()
 
 		db, bl := this.dbConnections[dir.Name()]
+		logger.Debugf("UseFlyway selected db %s is exists %v", dir.Name(), bl)
 		if !bl {
 			continue
 		}
