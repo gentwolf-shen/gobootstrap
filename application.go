@@ -129,15 +129,15 @@ func (this *Application) UseFlyway(mappers embed.ItfaceEmbedFile, prefix string)
 	service.Flyway.Init(len(dirs))
 
 	for _, dir := range dirs {
-		logger.Debugf("UseFlyway %s is dir %v", dir, dir.IsDir())
+		name := dir.Name()
+
+		logger.Debugf("UseFlyway [%s] is dir [%v]", name, dir.IsDir())
 		if !dir.IsDir() {
 			continue
 		}
 
-		name := dir.Name()
-
-		db, bl := this.dbConnections[dir.Name()]
-		logger.Debugf("UseFlyway selected db %s is exists %v", dir.Name(), bl)
+		db, bl := this.dbConnections[name]
+		logger.Debugf("UseFlyway selected db[%s] is exists[%v]", name, bl)
 		if !bl {
 			continue
 		}
