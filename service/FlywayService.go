@@ -60,7 +60,7 @@ func (s *FlywayService) GetXml() string {
 func (s *FlywayService) Run(mappers embed.ItfaceEmbedFile, prefix, target string) {
 	s.listHistory(target)
 
-	files, _ := mappers.ReadDir(prefix + target)
+	files, _ := mappers.ReadDir(prefix + "/" + target)
 	size := len(files)
 	if size == 0 {
 		return
@@ -88,7 +88,7 @@ func (s *FlywayService) Run(mappers embed.ItfaceEmbedFile, prefix, target string
 
 	for _, v := range arr {
 		logger.Infof("SQL: %s", names[v])
-		filename := prefix + target + "/" + names[v]
+		filename := prefix + "/" + target + "/" + names[v]
 		b, err := mappers.ReadFile(filename)
 		if err != nil || b == nil {
 			logger.Errorf("read [%s] error: %v", filename, err)

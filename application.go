@@ -83,10 +83,6 @@ func (this *Application) ShutdownHook(hook func()) {
 }
 
 func (this *Application) SetDbMapper(mappers embed.ItfaceEmbedFile, prefix string) *Application {
-	if !strings.HasSuffix(prefix, "/") {
-		prefix += "/"
-	}
-
 	this.dbConnections = make(map[string]*sql.DB, len(this.cfg.Db))
 
 	var err error
@@ -107,10 +103,10 @@ func (this *Application) SetDbMapper(mappers embed.ItfaceEmbedFile, prefix strin
 		}
 
 		for _, dir := range dirs {
-			files, _ := mappers.ReadDir(prefix + dir.Name())
+			files, _ := mappers.ReadDir(prefix + "/" + dir.Name())
 			for _, n := range files {
 				name := n.Name()
-				b, err := ioutil.ReadFile(prefix + dir.Name() + "/" + name)
+				b, err := ioutil.ReadFile(prefix + "/" + dir.Name() + "/" + name)
 				if err != nil {
 					logger.Error(err)
 					continue
@@ -124,10 +120,6 @@ func (this *Application) SetDbMapper(mappers embed.ItfaceEmbedFile, prefix strin
 }
 
 func (this *Application) UseFlyway(mappers embed.ItfaceEmbedFile, prefix string) *Application {
-	if !strings.HasSuffix(prefix, "/") {
-		prefix += "/"
-	}
-
 	dirs, err := mappers.ReadDir(prefix)
 	if err != nil {
 		logger.Errorf("read dir error %v", err)
