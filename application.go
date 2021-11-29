@@ -12,7 +12,6 @@ import (
 	"github.com/gentwolf-shen/gohelper-v2/endless"
 	"github.com/gentwolf-shen/gohelper-v2/gomybatis"
 	"github.com/gentwolf-shen/gohelper-v2/logger"
-	"io/ioutil"
 	"runtime"
 	"strings"
 )
@@ -82,31 +81,31 @@ func (this *Application) ShutdownHook(hook func()) {
 	this.closeDb()
 }
 
-func (this *Application) SetDbMapper(mappers embed.ItfaceEmbedFile, prefix string) *Application {
+func (this *Application) SetDbMapper(embedFile embed.ItfaceEmbedFile, prefix string) *Application {
 	this.dbConnections = make(map[string]*sql.DB, len(this.cfg.Db))
 
 	var err error
 	for name, c := range this.cfg.Db {
 		this.dbConnections[name], err = sql.Open(c.Type, c.Dsn)
 		if err != nil {
-			logger.Errorf("init database error %s %v", name, err)
+			logger.Errorf("SetDbMapper init database error %s %v", name, err)
 			continue
 		}
 
 		this.dbConnections[name].SetMaxIdleConns(c.MaxIdleConnections)
 		this.dbConnections[name].SetMaxOpenConns(c.MaxOpenConnections)
 
-		dirs, err1 := mappers.ReadDir(prefix)
+		dirs, err1 := embedFile.ReadDir(prefix)
 		if err1 != nil {
-			logger.Errorf("read mapper error %s %v", name, err1)
+			logger.Errorf("SetDbMapper error %s %v", name, err1)
 			continue
 		}
 
 		for _, dir := range dirs {
-			files, _ := mappers.ReadDir(prefix + "/" + dir.Name())
+			files, _ := embedFile.ReadDir(prefix + "/" + dir.Name())
 			for _, n := range files {
 				name := n.Name()
-				b, err := ioutil.ReadFile(prefix + "/" + dir.Name() + "/" + name)
+				b, err := embedFile.ReadFile(prefix + "/" + dir.Name() + "/" + name)
 				if err != nil {
 					logger.Error(err)
 					continue
@@ -119,8 +118,8 @@ func (this *Application) SetDbMapper(mappers embed.ItfaceEmbedFile, prefix strin
 	return this
 }
 
-func (this *Application) UseFlyway(mappers embed.ItfaceEmbedFile, prefix string) *Application {
-	dirs, err := mappers.ReadDir(prefix)
+func (this *Application) UseFlyway(embedFile embed.ItfaceEmbedFile, prefix string) *Application {
+	dirs, err := embedFile.ReadDir(prefix)
 	if err != nil {
 		logger.Errorf("read dir error %v", err)
 		return this
@@ -146,7 +145,7 @@ func (this *Application) UseFlyway(mappers embed.ItfaceEmbedFile, prefix string)
 
 		service.Flyway.AddDao(name, dao.NewFlyway(name))
 		gomybatis.SetMapper(db, name+":Flyway", service.Flyway.GetXml())
-		service.Flyway.Run(mappers, prefix, name)
+		service.Flyway.Run(embedFile, prefix, name)
 	}
 	service.Flyway = nil
 
