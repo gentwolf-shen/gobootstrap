@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mapper version="1.0">
+    <select id="Count">
+        SELECT COUNT(1) AS c FROM ${table}
+        <foreach collection="whereValues" index="index" item="item" open="WHERE " separator=" AND ">
+            ${index} = #{item}
+        </foreach>
+    </select>
+
+    <insert id="List">
+        SELECT ${field} FROM ${table}
+        <foreach collection="whereValues" index="index" item="item" open="WHERE " separator=" AND ">
+            ${index} = #{item}
+        </foreach>
+        <if test="orderBy != nil and orderBy != ''">ORDER BY ${orderBy}</if>
+        <if test="offset != nil">LIMIT ${offset}</if>
+        <if test="size != nil and size > 0">,${size}</if>
+    </insert>
+
+    <insert id="Insert">
+        INSERT INTO ${table} SET
+        <foreach collection="values" index="index" item="item" separator=",">
+            ${index} = #{item}
+        </foreach>
+    </insert>
+
+    <update id="Update">
+        UPDATE ${table} SET
+        <foreach collection="updateValues" index="index" item="item" separator=",">
+            ${index} = #{item}
+        </foreach>
+        <foreach collection="whereValues" index="index" item="item" open="WHERE " separator=" AND ">
+            ${index} = #{item}
+        </foreach>
+    </update>
+
+    <delete id="Delete">
+        DELETE FROM ${table}
+        <foreach collection="whereValues" index="index" item="item" open="WHERE " separator=" AND ">
+            ${index} = #{item}
+        </foreach>
+    </delete>
+
+    <select id="Query">
+        SELECT ${field} FROM ${table}
+        <foreach collection="whereValues" index="index" item="item" open="WHERE " separator=" AND ">
+            ${index} = #{item}
+        </foreach>
+    </select>
+
+    <update id="CreateTable">
+        ${sql}
+    </update>
+</mapper>

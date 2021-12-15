@@ -1,4 +1,4 @@
-package controller
+package extra
 
 type (
 	ResponseMessage struct {

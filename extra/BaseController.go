@@ -1,4 +1,4 @@
-package controller
+package extra
 
 import (
 	"github.com/gentwolf-shen/gin-boost"
@@ -10,7 +10,7 @@ import (
 type BaseController struct{}
 
 func (ctl *BaseController) BindRequest(c *gin.Context, p interface{}, cb func(rs *ResponseMessage)) {
-	rs := &ResponseMessage{}
+	rs := &ResponseMessage{Code: 200}
 
 	if err := c.BindRequest(p); err != nil {
 		rs.Message = validator.Translate(err)
