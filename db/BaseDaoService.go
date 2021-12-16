@@ -107,9 +107,11 @@ func (s *BaseDaoService) Query(value interface{}, field string, p interface{}) e
 }
 
 func (s *BaseDaoService) Insert(p interface{}) (int64, error) {
+	keys, values := util.ToArray(util.QueryDbTagMap(p, "insert"))
 	inputValue := map[string]interface{}{
 		"table":  s.tableName,
-		"values": util.QueryDbTagMap(p, "insert"),
+		"keys":   keys,
+		"values": values,
 	}
 	return GetGoBatis(s.dbName).Insert(s.getSelector("Insert"), inputValue)
 }

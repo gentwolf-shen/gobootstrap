@@ -19,10 +19,13 @@
     </insert>
 
     <insert id="Insert">
-        INSERT INTO ${table} SET
-        <foreach collection="values" index="index" item="item" separator=",">
-            ${index} = #{item}
-        </foreach>
+        INSERT INTO ${table}
+        (<foreach collection="keys"  item="item" separator=",">
+            ${item}
+        </foreach>)
+        VALUES(<foreach collection="values" item="item" separator=",">
+            #{item}
+        </foreach>)
     </insert>
 
     <update id="Update">
