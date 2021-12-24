@@ -44,8 +44,7 @@ func (this *Interceptor) IsMustAuthorize(path []byte) bool {
 func (this *Interceptor) isMatched(path []byte, items []*regexp.Regexp) bool {
 	bl := false
 	for _, ptn := range items {
-		bl = ptn.Match(path)
-		if bl {
+		if bl = ptn.Match(path); bl {
 			break
 		}
 	}
