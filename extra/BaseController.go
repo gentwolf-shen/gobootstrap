@@ -12,10 +12,12 @@ type BaseController struct{}
 func (ctl *BaseController) BindRequest(c *gin.Context, p interface{}, cb func(rs *ResponseMessage)) {
 	rs := &ResponseMessage{Code: 200}
 
-	if err := c.BindRequest(p); err != nil {
-		rs.Message = validator.Translate(err)
-		ctl.ShowCustomError(c, rs)
-		return
+	if p != nil {
+		if err := c.BindRequest(p); err != nil {
+			rs.Message = validator.Translate(err)
+			ctl.ShowCustomError(c, rs)
+			return
+		}
 	}
 
 	cb(rs)
