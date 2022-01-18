@@ -7,17 +7,72 @@ import (
 	"github.com/gentwolf-shen/gohelper-v2/dict"
 )
 
-type BaseController struct{}
+var (
+	SucceedCode = 200
+)
 
+type BaseController struct {
+}
+
+// 绑定参数(uri, query, form post, json post)
 func (ctl *BaseController) BindRequest(c *gin.Context, p interface{}, cb func(rs *ResponseMessage)) {
-	rs := &ResponseMessage{Code: 200}
-
-	if p != nil {
-		if err := c.BindRequest(p); err != nil {
-			rs.Message = validator.Translate(err)
-			ctl.ShowCustomError(c, rs)
-			return
+	ctl.bind(c, func() error {
+		if p == nil {
+			return nil
 		}
+
+		return c.BindRequest(p)
+	}, func(rs *ResponseMessage) {
+		cb(rs)
+	})
+}
+
+// 绑定参数 (form post, json post)
+func (ctl *BaseController) BindBody(c *gin.Context, p interface{}, cb func(rs *ResponseMessage)) {
+	ctl.bind(c, func() error {
+		if p == nil {
+			return nil
+		}
+
+		return c.ShouldBind(p)
+	}, func(rs *ResponseMessage) {
+		cb(rs)
+	})
+}
+
+// 绑定参数 (query)
+func (ctl *BaseController) BindQuery(c *gin.Context, p interface{}, cb func(rs *ResponseMessage)) {
+	ctl.bind(c, func() error {
+		if p == nil {
+			return nil
+		}
+
+		return c.ShouldBindQuery(p)
+	}, func(rs *ResponseMessage) {
+		cb(rs)
+	})
+}
+
+// 绑定参数 (uri)
+func (ctl *BaseController) BindUri(c *gin.Context, p interface{}, cb func(rs *ResponseMessage)) {
+	ctl.bind(c, func() error {
+		if p == nil {
+			return nil
+		}
+
+		return c.ShouldBindUri(p)
+	}, func(rs *ResponseMessage) {
+		cb(rs)
+	})
+}
+
+func (ctl *BaseController) bind(c *gin.Context, bindTarget func() error, cb func(rs *ResponseMessage)) {
+	rs := &ResponseMessage{Code: SucceedCode}
+
+	if err := bindTarget(); err != nil {
+		rs.Message = validator.Translate(err)
+		ctl.ShowCustomError(c, rs)
+		return
 	}
 
 	cb(rs)
@@ -48,4 +103,8 @@ func (ctl *BaseController) ShowCodeError(c *gin.Context, rs *ResponseMessage) {
 func (ctl *BaseController) ShowCustomError(c *gin.Context, rs *ResponseMessage) {
 	rs.Code = 4000000
 	c.JSON(400, rs)
+}
+
+func (ctl *BaseController) ShowSucceed(c *gin.Context, rs *ResponseMessage) {
+	c.JSON(200, rs)
 }
