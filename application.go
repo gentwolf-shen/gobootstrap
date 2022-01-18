@@ -10,8 +10,8 @@ import (
 	"github.com/gentwolf-shen/gobootstrap/interceptor"
 	"github.com/gentwolf-shen/gobootstrap/logger"
 	"github.com/gentwolf-shen/gohelper-v2/config"
+	"github.com/gentwolf-shen/gohelper-v2/dict"
 	"github.com/gentwolf-shen/gohelper-v2/endless"
-	"github.com/gentwolf-shen/gohelper/dict"
 )
 
 type Application struct {
