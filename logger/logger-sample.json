@@ -1,0 +1,11 @@
+{
+    "filepath": "${application.path}/log",
+    "lumberjackOption": {
+        "filename": "app",
+        "maxSize": 100,
+        "maxAge": 30,
+        "maxBackups": 100,
+        "localTime": true,
+        "compress": true
+    }
+}
