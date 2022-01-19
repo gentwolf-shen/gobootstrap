@@ -1,11 +1,11 @@
-package util
+package maphelper
 
 import (
-	"math"
 	"reflect"
 	"strings"
 )
 
+// map 或 struct 转换为 map
 func ToMap(value interface{}) map[string]interface{} {
 	if value == nil {
 		return nil
@@ -34,6 +34,7 @@ func ToMap(value interface{}) map[string]interface{} {
 	return data
 }
 
+// 从struct中查询所有tag中含有db的key
 func QueryDbTagField(value interface{}) string {
 	types := reflect.TypeOf(value)
 	if types.Kind() == reflect.Ptr {
@@ -59,6 +60,9 @@ func QueryDbTagField(value interface{}) string {
 	return strings.Join(arr[0:index], ",")
 }
 
+// 查询tag为db，或且标记有target的key，如：
+// CreateTime int64  `db:"create_time,insert"`
+// UpdateTime int64  `db:"update_time,update"`
 func QueryDbTagMap(value interface{}, target string) map[string]interface{} {
 	if value == nil {
 		return nil
@@ -99,6 +103,7 @@ func QueryDbTagMap(value interface{}, target string) map[string]interface{} {
 	return data
 }
 
+// 将map的key与value转换为数组
 func ToArray(value map[string]interface{}) ([]string, []interface{}) {
 	size := len(value)
 	keys := make([]string, size)
@@ -111,12 +116,4 @@ func ToArray(value map[string]interface{}) ([]string, []interface{}) {
 		index++
 	}
 	return keys, values
-}
-
-func Ceil(size, count int64) int64 {
-	return int64(math.Ceil(float64(count) / float64(size)))
-}
-
-func ToOffset(page, size int64) int64 {
-	return (page - 1) * size
 }

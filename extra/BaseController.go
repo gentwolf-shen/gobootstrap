@@ -3,7 +3,7 @@ package extra
 import (
 	"github.com/gentwolf-shen/gin-boost"
 	"github.com/gentwolf-shen/gobootstrap/validator"
-	"github.com/gentwolf-shen/gohelper-v2/convert"
+	"github.com/gentwolf-shen/gohelper-v2/converter"
 	"github.com/gentwolf-shen/gohelper-v2/dict"
 )
 
@@ -78,7 +78,7 @@ func (ctl *BaseController) bind(c *gin.Context, bindTarget func() error, cb func
 	cb(rs)
 
 	if rs.Code > 0 {
-		rs.Message = dict.Get(convert.ToStr(rs.Code))
+		rs.Message = dict.Get(converter.ToStr(rs.Code))
 		ctl.ShowCodeError(c, rs)
 		return
 	}
@@ -96,7 +96,7 @@ func (ctl *BaseController) bind(c *gin.Context, bindTarget func() error, cb func
 }
 
 func (ctl *BaseController) ShowCodeError(c *gin.Context, rs *ResponseMessage) {
-	rs.Message = dict.Get(convert.ToStr(rs.Code))
+	rs.Message = dict.Get(converter.ToStr(rs.Code))
 	c.JSON(rs.Code/10000, rs)
 }
 

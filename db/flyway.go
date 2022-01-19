@@ -7,7 +7,7 @@ import (
 
 	"github.com/gentwolf-shen/gobootstrap/embed"
 	"github.com/gentwolf-shen/gobootstrap/logger"
-	"github.com/gentwolf-shen/gohelper-v2/convert"
+	"github.com/gentwolf-shen/gohelper-v2/converter"
 	"github.com/gentwolf-shen/gohelper-v2/timehelper"
 )
 
@@ -51,7 +51,7 @@ func (s *Flyway) Run(mappers embed.ItfaceEmbedFile, prefix string) {
 
 	for _, file := range files {
 		rs := ptn.FindStringSubmatch(file.Name())
-		version := convert.ToInt(rs[1])
+		version := converter.ToInt(rs[1])
 		_, ok := s.versions[version]
 		if ok {
 			continue

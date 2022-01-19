@@ -1,8 +1,9 @@
 package db
 
 import (
+	"github.com/gentwolf-shen/gobootstrap/helper/maphelper"
 	"github.com/gentwolf-shen/gobootstrap/logger"
-	"github.com/gentwolf-shen/gobootstrap/util"
+	"github.com/gentwolf-shen/gohelper-v2/util"
 )
 
 var (
@@ -68,7 +69,7 @@ func (s *BaseDaoService) Page(value interface{}, p *ListParam) *PaginationEntity
 // p: 查询及分页参数
 func (s *BaseDaoService) List(value interface{}, p *ListParam) error {
 	if p.Field == "" {
-		p.Field = util.QueryDbTagField(value)
+		p.Field = maphelper.QueryDbTagField(value)
 	}
 
 	inputValue := map[string]interface{}{
@@ -108,12 +109,12 @@ func (s *BaseDaoService) QueryById(value interface{}, field string, id int64) er
 // p: 查询的条件，如果是struct，则转换为map[string]interface{}
 func (s *BaseDaoService) Query(value interface{}, field string, p interface{}) error {
 	if field == "" {
-		field = util.QueryDbTagField(value)
+		field = maphelper.QueryDbTagField(value)
 	}
 	inputValue := map[string]interface{}{
 		"table":       s.tableName,
 		"field":       field,
-		"whereValues": util.ToMap(p),
+		"whereValues": maphelper.ToMap(p),
 	}
 	return GetGoBatis(s.dbName).QueryObject(value, s.getSelector("Query"), inputValue)
 }
@@ -121,7 +122,7 @@ func (s *BaseDaoService) Query(value interface{}, field string, p interface{}) e
 // 插入记录
 // p: map[string]interface{}，如是是struct，则查询tag为db,或且标记有insert的key
 func (s *BaseDaoService) Insert(p interface{}) (int64, error) {
-	keys, values := util.ToArray(util.QueryDbTagMap(p, "insert"))
+	keys, values := maphelper.ToArray(maphelper.QueryDbTagMap(p, "insert"))
 	inputValue := map[string]interface{}{
 		"table":  s.tableName,
 		"keys":   keys,
@@ -140,7 +141,7 @@ func (s *BaseDaoService) UpdateById(p interface{}, id int64) (int64, error) {
 func (s *BaseDaoService) Update(p interface{}, argsWhere map[string]interface{}) (int64, error) {
 	inputValue := map[string]interface{}{
 		"table":        s.tableName,
-		"updateValues": util.QueryDbTagMap(p, "update"),
+		"updateValues": maphelper.QueryDbTagMap(p, "update"),
 		"whereValues":  argsWhere,
 	}
 	return GetGoBatis(s.dbName).Update(s.getSelector("Update"), inputValue)
