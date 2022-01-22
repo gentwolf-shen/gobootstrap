@@ -8,7 +8,8 @@ import (
 )
 
 var (
-	SucceedCode = 200
+	SucceedCode    = 200
+	SucceedMessage = "succeed"
 )
 
 type BaseController struct {
@@ -77,21 +78,18 @@ func (ctl *BaseController) bind(c *gin.Context, bindTarget func() error, cb func
 
 	cb(rs)
 
+	if rs.Message != nil {
+		ctl.ShowCustomError(c, rs)
+		return
+	}
+
 	if rs.Code > 0 {
 		rs.Message = dict.Get(converter.ToStr(rs.Code))
 		ctl.ShowCodeError(c, rs)
 		return
 	}
 
-	if rs.Message != nil {
-		ctl.ShowCustomError(c, rs)
-		return
-	}
-
-	if rs.Data == nil {
-		rs.Data = "success"
-	}
-
+	rs.Message = SucceedMessage
 	c.JSON(200, rs)
 }
 
