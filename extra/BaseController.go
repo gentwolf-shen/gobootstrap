@@ -68,7 +68,7 @@ func (ctl *BaseController) BindUri(c *gin.Context, p interface{}, cb func(rs *Re
 }
 
 func (ctl *BaseController) bind(c *gin.Context, bindTarget func() error, cb func(rs *ResponseMessage)) {
-	rs := &ResponseMessage{Code: SucceedCode}
+	rs := &ResponseMessage{}
 
 	if err := bindTarget(); err != nil {
 		rs.Message = validator.Translate(err)
@@ -89,6 +89,7 @@ func (ctl *BaseController) bind(c *gin.Context, bindTarget func() error, cb func
 		return
 	}
 
+	rs.Code = SucceedCode
 	rs.Message = SucceedMessage
 	c.JSON(200, rs)
 }
