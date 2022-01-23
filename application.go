@@ -93,10 +93,6 @@ func (a *Application) GetWebEngine() *gin.Engine {
 func (a *Application) auth() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if !interceptor.Valid(c) {
-			c.Writer.WriteHeader(401)
-			if msg := c.GetString("auth-failed-msg"); msg != "" {
-				c.Writer.WriteString(msg)
-			}
 			c.Abort()
 		}
 	}
