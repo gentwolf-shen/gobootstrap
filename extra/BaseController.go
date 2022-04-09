@@ -9,7 +9,7 @@ import (
 
 var (
 	SucceedCode    = 200
-	SucceedMessage = "succeed"
+	SucceedMessage = "success"
 )
 
 type BaseController struct {
