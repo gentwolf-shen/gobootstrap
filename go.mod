@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/gentwolf-shen/gin-boost v1.0.0
-	github.com/gentwolf-shen/gobatis v1.1.2
+	github.com/gentwolf-shen/gobatis v1.1.3
 	github.com/gentwolf-shen/gohelper-v2 v1.0.2
 	github.com/go-playground/locales v0.14.0
 	github.com/go-playground/universal-translator v0.18.0
