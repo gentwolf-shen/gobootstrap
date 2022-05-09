@@ -18,8 +18,8 @@ github.com/gentwolf-shen/gin-boost v1.0.0 h1:Ln4DE1I07MBF8perUuvTfip/7d4KjJZjL9B
 github.com/gentwolf-shen/gin-boost v1.0.0/go.mod h1:EZ3veumoFwano+EGGkXESggFjSM3hxVCvUK53rel9Lw=
 github.com/gentwolf-shen/gobatis v1.1.3 h1:4xusNdgTBMDvXrs3WQcAyXV10X4ewaB7YiY2dJcKlXs=
 github.com/gentwolf-shen/gobatis v1.1.3/go.mod h1:xo/csNxrBmJcQLVceVJyVN7ShIjhq6jAVf8v2Xnw1g8=
-github.com/gentwolf-shen/gohelper-v2 v1.0.2 h1:aunWUL7zM4hJOSq0MxZPJ+rbgmxTd7lRwI592feMP4k=
-github.com/gentwolf-shen/gohelper-v2 v1.0.2/go.mod h1:P1dZLYseTRuyGJAYB/vhCZ+mwzZcz2wmN1E/SHVFb3M=
+github.com/gentwolf-shen/gohelper-v2 v1.0.3 h1:1Tf2qFqxjeyj2QG54xvjvw45UOdrbmWp5/HHT6sg8Jw=
+github.com/gentwolf-shen/gohelper-v2 v1.0.3/go.mod h1:P1dZLYseTRuyGJAYB/vhCZ+mwzZcz2wmN1E/SHVFb3M=
 github.com/gin-contrib/sse v0.1.0 h1:Y/yl/+YNO8GZSjAhjMsSuLt29uWRFHdHYUb5lYOV9qE=
 github.com/gin-contrib/sse v0.1.0/go.mod h1:RHrZQHXnP2xjPF+u1gW/2HnVO7nvIa9PG3Gm+fLHvGI=
 github.com/go-playground/assert/v2 v2.0.1 h1:MsBgLAaY856+nPRTKrp3/OZK38U/wa0CcBYNjji3q3A=

@@ -11,7 +11,6 @@ import (
 	"github.com/gentwolf-shen/gobootstrap/logger"
 	"github.com/gentwolf-shen/gohelper-v2/config"
 	"github.com/gentwolf-shen/gohelper-v2/dict"
-	"github.com/gentwolf-shen/gohelper-v2/endless"
 )
 
 type Application struct {
@@ -65,9 +64,7 @@ func (a *Application) Register(register func(app *Application)) *Application {
 }
 
 func (a *Application) Run() *Application {
-	if err := endless.ListenAndServe(a.cfg.Web.Port, a.engine); err != nil {
-		logger.Sugar.Error(err)
-	}
+	a.engine.Run(a.cfg.Web.Port)
 	return a
 }
 
