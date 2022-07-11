@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <mapper version="1.0">
-    <select id="Count">
+    <select id="Count" statementType="statement">
         SELECT COUNT(1) AS c FROM ${table}
         <foreach collection="whereValues" index="index" item="item" open="WHERE " separator=" AND ">
-            ${index} = #{item}
+            ${index} = ${item}
         </foreach>
     </select>
 
@@ -52,7 +52,7 @@
         </foreach>
     </select>
 
-    <update id="CreateTable">
+    <update id="CreateTable" statementType="statement">
         ${sql}
     </update>
 </mapper>
