@@ -1,5 +1,7 @@
 {
     "filepath": "${application.path}/log",
+	"level": "debug",
+	"levelValue": "debug,info,warn,error",
     "lumberjackOption": {
         "filename": "app",
         "maxSize": 100,

@@ -15,15 +15,30 @@ var (
 	Sugar *zap.SugaredLogger
 )
 
-func LoadDefault() {
-	currentDir := filepath.Dir(os.Args[0])
+func LoadFromStr(str string) {
 	p := &LoggerStruct{}
-	err := jsonhelper.FileToObj(currentDir+"/config/logger.json", p)
-	if err != nil {
+	if err := jsonhelper.ToObj([]byte(str), p); err != nil {
 		panic(err)
 	}
 
-	p.FilePath = strings.Replace(p.FilePath, "${application.path}", currentDir, -1)
+	initLogger(p)
+}
+
+func LoadFromFile(filename string) {
+	p := &LoggerStruct{}
+	if err := jsonhelper.FileToObj(filename, p); err != nil {
+		panic(err)
+	}
+
+	initLogger(p)
+}
+
+func LoadDefault() {
+	LoadFromFile(filepath.Dir(os.Args[0]) + "/config/logger.json")
+}
+
+func initLogger(p *LoggerStruct) {
+	p.FilePath = strings.Replace(p.FilePath, "${application.path}", filepath.Dir(os.Args[0]), -1)
 	if !strings.HasSuffix(p.FilePath, "/") {
 		p.FilePath += "/"
 	}
@@ -36,13 +51,18 @@ func LoadDefault() {
 	cfg.EncodeLevel = zapcore.CapitalColorLevelEncoder
 	encoder := zapcore.NewConsoleEncoder(cfg)
 
-	core := zapcore.NewTee(
-		zapcore.NewCore(encoder, zapcore.AddSync(os.Stdout), getLevel(zap.DebugLevel)),
-		zapcore.NewCore(encoder, zapcore.AddSync(getWriter(p.FilePath, "info", &p.LumberjackOption)), getLevel(zapcore.InfoLevel)),
-		zapcore.NewCore(encoder, zapcore.AddSync(getWriter(p.FilePath, "warn", &p.LumberjackOption)), getLevel(zapcore.WarnLevel)),
-		zapcore.NewCore(encoder, zapcore.AddSync(getWriter(p.FilePath, "error", &p.LumberjackOption)), getLevel(zapcore.ErrorLevel)),
-	)
+	index := 1
+	cores := make([]zapcore.Core, 4)
+	cores[0] = zapcore.NewCore(encoder, zapcore.AddSync(os.Stdout), getLevel(p.Level))
+	levels := []zapcore.Level{zapcore.InfoLevel, zapcore.WarnLevel, zapcore.ErrorLevel}
+	for _, level := range levels {
+		if level >= p.Level {
+			cores[index] = zapcore.NewCore(encoder, zapcore.AddSync(getWriter(p.FilePath, level.String(), &p.LumberjackOption)), getLevel(level))
+			index++
+		}
+	}
 
+	core := zapcore.NewTee(cores[0:index]...)
 	logger := zap.New(core, zap.AddCaller())
 	defer logger.Sync()
 	Sugar = logger.Sugar()
@@ -68,6 +88,7 @@ func getWriter(filePath string, level string, p *lumberjack.Logger) *lumberjack.
 type (
 	LoggerStruct struct {
 		FilePath         string            `json:"filepath"`
+		Level            zapcore.Level     `json:"level"`
 		LumberjackOption lumberjack.Logger `json:"lumberjackOption"`
 	}
 )
