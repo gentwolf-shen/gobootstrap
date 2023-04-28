@@ -3,10 +3,10 @@ package main
 import (
 	"runtime"
 
-	"gobootstrap/db"
-	"gobootstrap/embed"
-	"gobootstrap/interceptor"
-	"gobootstrap/logger"
+	"github.com/gentwolf-shen/gobootstrap/db"
+	"github.com/gentwolf-shen/gobootstrap/embed"
+	"github.com/gentwolf-shen/gobootstrap/interceptor"
+	"github.com/gentwolf-shen/gobootstrap/logger"
 
 	"github.com/gentwolf-shen/gin-boost"
 	"github.com/gentwolf-shen/gobatis"

@@ -1,8 +1,9 @@
 package extra
 
 import (
-	"gobootstrap/logger"
 	"runtime"
+
+	"github.com/gentwolf-shen/gobootstrap/logger"
 )
 
 var (

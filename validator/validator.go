@@ -1,6 +1,9 @@
 package validator
 
 import (
+	"reflect"
+	"strings"
+
 	"github.com/gentwolf-shen/gin-boost/binding"
 	"github.com/gentwolf-shen/gohelper-v2/util"
 	"github.com/go-playground/locales"
@@ -10,8 +13,6 @@ import (
 	"github.com/go-playground/validator/v10"
 	enTranslations "github.com/go-playground/validator/v10/translations/en"
 	zhTranslations "github.com/go-playground/validator/v10/translations/zh"
-	"reflect"
-	"strings"
 )
 
 var (

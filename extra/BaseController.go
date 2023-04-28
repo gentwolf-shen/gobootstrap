@@ -1,7 +1,7 @@
 package extra
 
 import (
-	"gobootstrap/validator"
+	"github.com/gentwolf-shen/gobootstrap/validator"
 
 	"github.com/gentwolf-shen/gin-boost"
 	"github.com/gentwolf-shen/gohelper-v2/converter"

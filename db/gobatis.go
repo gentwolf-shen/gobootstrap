@@ -2,9 +2,10 @@ package db
 
 import (
 	_ "embed"
-	"gobootstrap/embed"
-	"gobootstrap/logger"
 	"strings"
+
+	"github.com/gentwolf-shen/gobootstrap/embed"
+	"github.com/gentwolf-shen/gobootstrap/logger"
 
 	"github.com/gentwolf-shen/gobatis"
 	"github.com/gentwolf-shen/gohelper-v2/config"

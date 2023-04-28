@@ -1,4 +1,4 @@
-module gobootstrap
+module github.com/gentwolf-shen/gobootstrap
 
 go 1.17
 

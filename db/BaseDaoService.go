@@ -1,8 +1,8 @@
 package db
 
 import (
-	"gobootstrap/helper/maphelper"
-	"gobootstrap/logger"
+	"github.com/gentwolf-shen/gobootstrap/helper/maphelper"
+	"github.com/gentwolf-shen/gobootstrap/logger"
 
 	"github.com/gentwolf-shen/gohelper-v2/util"
 )

@@ -5,8 +5,8 @@ import (
 	"sort"
 	"strings"
 
-	"gobootstrap/embed"
-	"gobootstrap/logger"
+	"github.com/gentwolf-shen/gobootstrap/embed"
+	"github.com/gentwolf-shen/gobootstrap/logger"
 
 	"github.com/gentwolf-shen/gohelper-v2/converter"
 	"github.com/gentwolf-shen/gohelper-v2/timehelper"
