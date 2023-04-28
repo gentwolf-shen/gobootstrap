@@ -1,14 +1,15 @@
-package gobootstrap
+package main
 
 import (
 	"runtime"
 
+	"gobootstrap/db"
+	"gobootstrap/embed"
+	"gobootstrap/interceptor"
+	"gobootstrap/logger"
+
 	"github.com/gentwolf-shen/gin-boost"
 	"github.com/gentwolf-shen/gobatis"
-	"github.com/gentwolf-shen/gobootstrap/db"
-	"github.com/gentwolf-shen/gobootstrap/embed"
-	"github.com/gentwolf-shen/gobootstrap/interceptor"
-	"github.com/gentwolf-shen/gobootstrap/logger"
 	"github.com/gentwolf-shen/gohelper-v2/config"
 	"github.com/gentwolf-shen/gohelper-v2/dict"
 )
@@ -69,6 +70,8 @@ func (a *Application) Run() *Application {
 }
 
 func (a *Application) ShutdownHook(hook func()) {
+	db.Close()
+
 	hook()
 }
 

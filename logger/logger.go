@@ -5,7 +5,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/gentwolf-shen/gobootstrap/helper/jsonhelper"
+	"gobootstrap/helper/jsonhelper"
+
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"

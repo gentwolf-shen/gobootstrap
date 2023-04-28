@@ -16,10 +16,10 @@ github.com/gdamore/encoding v1.0.0/go.mod h1:alR0ol34c49FCSBLjhosxzcPHQbf2trDkoo
 github.com/gdamore/tcell v1.3.0/go.mod h1:Hjvr+Ofd+gLglo7RYKxxnzCBmev3BzsS67MebKS4zMM=
 github.com/gentwolf-shen/gin-boost v1.0.0 h1:Ln4DE1I07MBF8perUuvTfip/7d4KjJZjL9BIgNyTLss=
 github.com/gentwolf-shen/gin-boost v1.0.0/go.mod h1:EZ3veumoFwano+EGGkXESggFjSM3hxVCvUK53rel9Lw=
-github.com/gentwolf-shen/gobatis v1.1.7 h1:Qj8CcAGDexai6mSjsP6YWyibWdbnHmtp2Rd1qCYUHUk=
-github.com/gentwolf-shen/gobatis v1.1.7/go.mod h1:fqAqbo60fkVdODMFdxtMBkbmU2Y99WXemmVEo9fxlCA=
-github.com/gentwolf-shen/gohelper-v2 v1.0.3 h1:1Tf2qFqxjeyj2QG54xvjvw45UOdrbmWp5/HHT6sg8Jw=
-github.com/gentwolf-shen/gohelper-v2 v1.0.3/go.mod h1:P1dZLYseTRuyGJAYB/vhCZ+mwzZcz2wmN1E/SHVFb3M=
+github.com/gentwolf-shen/gobatis v1.1.9 h1:mqfdBaMNfjYvjETjCYmwYT8eN/YPEbHPvKf3nAaYhEk=
+github.com/gentwolf-shen/gobatis v1.1.9/go.mod h1:fqAqbo60fkVdODMFdxtMBkbmU2Y99WXemmVEo9fxlCA=
+github.com/gentwolf-shen/gohelper-v2 v1.0.5 h1:J5vuD5CaNK4HpsncWrU4aPOWuedQWF4b27euVJPL7SA=
+github.com/gentwolf-shen/gohelper-v2 v1.0.5/go.mod h1:P1dZLYseTRuyGJAYB/vhCZ+mwzZcz2wmN1E/SHVFb3M=
 github.com/gin-contrib/sse v0.1.0 h1:Y/yl/+YNO8GZSjAhjMsSuLt29uWRFHdHYUb5lYOV9qE=
 github.com/gin-contrib/sse v0.1.0/go.mod h1:RHrZQHXnP2xjPF+u1gW/2HnVO7nvIa9PG3Gm+fLHvGI=
 github.com/go-playground/assert/v2 v2.0.1 h1:MsBgLAaY856+nPRTKrp3/OZK38U/wa0CcBYNjji3q3A=

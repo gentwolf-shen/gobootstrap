@@ -1,7 +1,7 @@
 package extra
 
 import (
-	"github.com/gentwolf-shen/gobootstrap/logger"
+	"gobootstrap/logger"
 	"runtime"
 )
 

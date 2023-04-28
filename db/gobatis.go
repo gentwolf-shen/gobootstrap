@@ -2,11 +2,12 @@ package db
 
 import (
 	_ "embed"
-	"github.com/gentwolf-shen/gobatis"
-	"github.com/gentwolf-shen/gobootstrap/embed"
-	"github.com/gentwolf-shen/gobootstrap/logger"
-	"github.com/gentwolf-shen/gohelper-v2/config"
+	"gobootstrap/embed"
+	"gobootstrap/logger"
 	"strings"
+
+	"github.com/gentwolf-shen/gobatis"
+	"github.com/gentwolf-shen/gohelper-v2/config"
 )
 
 var (
@@ -58,5 +59,11 @@ func loadXml(dbName, xmlName string, bytes []byte) {
 	logger.Sugar.Debugf("GoBatis set xml[%s] -> db[%s]", xmlName, dbName)
 	if err := targets[dbName].LoadFromBytes(xmlName, bytes); err != nil {
 		logger.Sugar.Error(err)
+	}
+}
+
+func Close() {
+	for _, db := range targets {
+		db.Close()
 	}
 }
